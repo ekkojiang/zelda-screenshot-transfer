@@ -42,6 +42,7 @@ Prompt-only output must use one Chinese code block with this field order:
 ```text
 塞尔达原版游戏实况截图复刻
 画风：任天堂 Switch 旷野之息/王国之泪实机游戏截图风格；不要电影 CG、不要写实摄影、不要 HDR 真实光影、不要湿润真实材质
+核心美术渲染：清爽明亮的 Switch 实机 cel-shaded 渲染，低频手绘贴图，大色块材质，柔和色阶阴影，暖色边缘光和薄雾高光，蓝绿色空气透视，远景发白降对比，角色与可交互物体轮廓清晰，草地/树叶/山石/屋顶/水面减少真实纹理和细碎笔触
 TOTK 王国之泪默认造型，林克单人
 画面尺寸比例：9:16
 
@@ -80,6 +81,7 @@ Use short Chinese prompts in this order:
 ```text
 塞尔达原版游戏实况截图复刻
 画风：任天堂 Switch 旷野之息/王国之泪实机游戏截图风格；不要电影 CG、不要写实摄影、不要 HDR 真实光影、不要湿润真实材质
+核心美术渲染：清爽明亮的 Switch 实机 cel-shaded 渲染，低频手绘贴图，大色块材质，柔和色阶阴影，暖色边缘光和薄雾高光，蓝绿色空气透视，远景发白降对比，角色与可交互物体轮廓清晰，草地/树叶/山石/屋顶/水面减少真实纹理和细碎笔触
 TOTK 王国之泪默认造型，林克单人
 画面尺寸比例：9:16
 
@@ -94,25 +96,30 @@ HUD：按 BOTW/TOTK 原版游戏实况自然出现，不堆满
 文字：所有可读 UI 使用中文，按键动词只用中文，如「调查」「打开」「拾取」「烹饪」；场景内招牌优先转为不可读海拉鲁纹样或极短中文，不生成长店名、广告字、乱码、英文
 ```
 
-Keep prompts around 10-13 lines. Do not add foreground/midground/background breakdowns, lens specs, material paragraphs, or long lighting descriptions.
+Keep prompts around 11-14 lines. Do not add foreground/midground/background breakdowns, lens specs, material paragraphs, or long lighting descriptions.
 
 ## Style Anchor Rules
 
-Always use these first two lines exactly:
+Always use these first three lines exactly:
 
 ```text
 塞尔达原版游戏实况截图复刻
 画风：任天堂 Switch 旷野之息/王国之泪实机游戏截图风格；不要电影 CG、不要写实摄影、不要 HDR 真实光影、不要湿润真实材质
+核心美术渲染：清爽明亮的 Switch 实机 cel-shaded 渲染，低频手绘贴图，大色块材质，柔和色阶阴影，暖色边缘光和薄雾高光，蓝绿色空气透视，远景发白降对比，角色与可交互物体轮廓清晰，草地/树叶/山石/屋顶/水面减少真实纹理和细碎笔触
 ```
 
-Do not scatter technical style words across the prompt. Do not add extra phrases like `cel-shading 扁平卡通色块`, `强黑描边`, `柔光绘画感`, `非 PBR`, or long material descriptions outside the `画风` line unless the user explicitly asks for diagnostic detail.
+Do not scatter technical style words across the prompt. The `核心美术渲染` line is the only compact place for lighting, color, material, and texture control unless the user explicitly asks for diagnostic detail.
 
 ## In-Game Visual Calibration
 
 Use the user's BOTW/TOTK screenshots as the visual target:
 
 - Overall image is bright, saturated, soft, lightly hazy, and game-rendered, not glossy or photographic.
-- Use BOTW/TOTK-like clean daylight: clear blue sky, warm sunlit color planes, vivid greens/yellows/blues, and readable soft highlight bands.
+- Use BOTW/TOTK-like clean daylight: clear cyan-blue sky, warm sunlit color planes, vivid mint greens, golden yellows, turquoise blues, and readable soft highlight bands.
+- Sunset and meadow scenes should use golden haze, warm rim light, pale sky glow, and amber highlights without becoming cinematic HDR.
+- Forest, mist, and magic scenes may use green-blue ambient haze, low contrast, soft silhouettes, and gentle glowing particles, but keep the image playable and not smoky movie lighting.
+- Sky-island, high-altitude, dragon, or shrine scenes should use pale cyan-white atmospheric wash, luminous bloom around magic objects, and very soft far-distance shapes.
+- Close character/action shots may use simplified background depth and clean silhouettes, but avoid photographic bokeh, lens specs, and portrait-poster lighting.
 - Grass appears as clean bright color masses with a few readable blades near the camera, not thousands of realistic strands.
 - Trees and leaves appear as clustered stylized volumes, not individually detailed leaves.
 - Rocks, roofs, walls, roads, floors, and water use low-frequency hand-painted texture blocks, not photo texture, scratches, pores, asphalt grain, or tiny brush marks.
@@ -120,7 +127,7 @@ Use the user's BOTW/TOTK screenshots as the visual target:
 - Distant mountains, buildings, and trees are lighter, bluer, softer, and lower contrast.
 - Character and interactable props have clear game silhouettes and smooth shaded color planes.
 
-If a generated image drifts toward glossy fantasy illustration, HDR realism, dull washed-out color, or highly detailed PBR textures, iterate by keeping the exact style anchor and simplifying the rest of the prompt. Add one short transfer sentence: `整体明亮清爽、色彩饱和、光影柔和但更有游戏美术层次，草地、树叶、山石、屋顶、墙面和水面是低频大色块，减少细碎笔触和照片纹理`.
+If a generated image drifts toward glossy fantasy illustration, HDR realism, dull washed-out color, or highly detailed PBR textures, iterate by keeping the exact style anchor and simplifying the rest of the prompt. Add one short transfer sentence: `减少真实纹理、降低 HDR 对比、弱化硬黑阴影、增加低频大色块、强化 Switch 实机截图感`.
 
 Avoid these output failures:
 
@@ -279,8 +286,9 @@ When generating from a reference photo:
 
 Before delivering a prompt or image, check:
 
-- Does the prompt start with the exact style anchor?
-- Is the prompt around 10-13 lines, not a long essay?
+- Does the prompt include the required field order: `画风 / 核心美术渲染 / 角色 / 画面尺寸 / 参考图 / 海拉鲁地图区块 / 画面要素 / 玩法时刻 / 塞尔达元素 / 地名 UI / HUD / 文字`?
+- Does the prompt start with the exact style anchor and core rendering line?
+- Is the prompt around 11-14 lines, not a long essay?
 - Are all template placeholders replaced with concrete content from the reference image?
 - Does it preserve the reference photo's recognizable features?
 - Is Link single unless the user explicitly requested otherwise?

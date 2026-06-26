@@ -1,6 +1,30 @@
 # zelda-screenshot-transfer
 
-一个用于 Codex 的图片转绘 Skill：根据现实参考照片，生成《塞尔达传说：旷野之息 / 王国之泪》风格的 Nintendo Switch 实机截图转绘提示词，也可以配合图片生成工具进行转绘测试。
+一个用于 Codex 的图片转绘 Skill：根据现实参考照片，生成 Nintendo Switch《塞尔达传说：王国之泪》实机截图质感的转绘提示词，也可以配合图片生成工具进行转绘测试。
+
+当前重点是 **MAXIMUM TOTK IN-GAME RENDERING FIDELITY**：尽量贴近《王国之泪》Switch 实机 gameplay footage 的 clean digital cel-shading 游戏引擎渲染，而不是插画、绘画、电影 CG 或写实摄影。
+
+## 作者主页
+
+- 小红书主页：[https://www.xiaohongshu.com/user/profile/59a4ee346a6a6972f6a7aec4](https://www.xiaohongshu.com/user/profile/59a4ee346a6a6972f6a7aec4)
+
+## 版本迭代
+
+### v0.2.0 - TOTK 实机渲染保真强化
+
+- 将核心目标升级为 `Nintendo Switch Tears of the Kingdom gameplay screenshot - MAXIMUM TOTK IN-GAME RENDERING FIDELITY`
+- 新增开头 + 结尾的包围式渲染约束，防止画面跑向插画、绘画、电影 CG、HDR 或写实摄影
+- 新增必填渲染模块：`LIGHTING`、`SHADOW AND SHADING`、`COLOR PALETTE`、`MATERIALS`
+- 要求为 3-5 个主要元素写出 `base → mid-tone → shadow` 色阶公式，强化 3-4 级柔和 cel-shaded 阴影
+- 强化大色块、低频材质、低对比明亮光照、简化粒子、干净数字 3D 游戏引擎质感
+- 新增常见问题修复：太像插画、阴影太复杂、过度 HDR/电影感、UI 或文字太抢戏
+- 保留现实参考图结构优先、中文区域发现 UI、林克单人默认、现代元素海拉鲁化转译等原有工作流
+
+### v0.1.0 - 初始照片转绘工作流
+
+- 支持根据现实照片生成 BOTW/TOTK 风格转绘提示词
+- 支持 9:16 手机竖屏、林克单人、轻量 HUD、区域发现 UI、中文按键动词
+- 支持根据场景选择奔跑、攀爬、滑翔、盾滑、烹饪、休憩、睡觉、潜行等玩法时刻
 
 ## 免责声明
 
@@ -20,6 +44,8 @@
 - 默认使用 `TOTK 王国之泪默认造型，林克单人`
 - 默认输出 `9:16` 手机竖屏构图
 - 自动加入轻量 HUD、区域发现 UI、中文按键动词
+- 使用元素级色阶公式控制 TOTK 实机 cel-shaded 渲染
+- 强制大色块、低频材质、3-4 级柔和阴影、低对比明亮光照
 - 在生成图片时，同时输出可复用的生图提示词
 
 ## 安装方法
@@ -67,38 +93,53 @@ zelda-screenshot-transfer/
 
 ## 输出提示词结构
 
-Skill 会按下面结构生成提示词：
+Skill 会按下面结构生成提示词。新版更重视渲染可控性，不再只用一两句“画风描述”，而是用多个固定模块锁定 TOTK 实机截图质感：
 
 ```text
-塞尔达原版游戏实况截图复刻
-画风：任天堂 Switch 旷野之息/王国之泪实机游戏截图风格；不要电影 CG、不要写实摄影、不要 HDR 真实光影、不要湿润真实材质
-核心美术渲染：清爽明亮的 Switch 实机 cel-shaded 渲染，低频手绘贴图，大色块材质，柔和色阶阴影，暖色边缘光和薄雾高光，蓝绿色空气透视，远景发白降对比，角色与可交互物体轮廓清晰，草地/树叶/山石/屋顶/水面减少真实纹理和细碎笔触
-TOTK 王国之泪默认造型，林克单人
-画面尺寸比例：9:16
+Nintendo Switch Tears of the Kingdom gameplay screenshot - MAXIMUM TOTK IN-GAME RENDERING FIDELITY.
+This must look EXACTLY like actual TOTK Switch gameplay footage, NOT illustration, NOT anime art, NOT painting.
 
-参考图：保留原图的核心构图、主体、环境和关键道具
-海拉鲁地图区块：根据画面生成的区域名
-画面要素：3-5 个可识别关键词
-玩法时刻：根据画面内容和镜头机位选择林克动作，并说明是否显示耐力轮
+RENDERING STYLE - TOTK SWITCH IN-GAME (CRITICAL):
+LARGE FLAT UNIFIED COLOR BLOCKS dominate every surface; CLEAN DIGITAL CEL-SHADING like 3D game engine rendering; 3-4 level soft gradient shadows ONLY; LOW-FREQUENCY hand-painted game textures; NO fine brush strokes, NO painting texture, NO illustration style.
 
-塞尔达元素：3-7 个场景适配元素
-地名 UI 文字（区域发现）：顶部「发现！」 / 中间「地名」 / 底部「上级区域」
-HUD：按 BOTW/TOTK 原版游戏实况自然出现，不堆满
-文字：所有可读 UI 使用中文，按键动词只用中文，如「调查」「打开」「拾取」「烹饪」
+SCENE：保留参考图核心构图、主体、地形、道路/水面/建筑/天空等识别特征；现代设施和游客做海拉鲁化转译或移除；画面尺寸比例：9:16，1440x2560
+CHARACTER AND GAMEPLAY：TOTK 王国之泪默认造型，林克单人；根据参考图选择一个明确游戏动作，并说明是否显示耐力轮
+ZELDA ELEMENTS：3-7 个场景适配元素，只列名称
+UI：按需加入区域发现/相机/轻量 HUD；所有可读 UI 使用中文；真实招牌和广告转为不可读海拉鲁纹样
+
+LIGHTING - TOTK GAME ENGINE STYLE:
+Soft LOW-CONTRAST lighting, NOT dramatic, NOT cinematic; gentle 3-level shadows; Overall BRIGHT and clearly visible; NO HDR, NO photorealistic lighting.
+
+SHADOW AND SHADING - TOTK SPECIFIC:
+为 3-5 个主要元素写出 base color → mid-tone → shadow color 色阶公式，限制为 3 tones ONLY。
+
+COLOR PALETTE - TOTK 场景类型:
+为主要元素列出 2-4 个颜色层级，默认 3 tones max；所有颜色 clean, bright, slightly desaturated。
+
+MATERIALS - LARGE FLAT COLOR BLOCKS:
+主要材质必须是 unified flat color areas / LARGE FLAT COLOR BLOCKS，并明确 NO texture complexity, NO fine surface detail。
+
+FINAL EMPHASIS - MUST LOOK LIKE ACTUAL TOTK SWITCH GAMEPLAY:
+Every surface is LARGE FLAT COLOR BLOCK. Shadows are SIMPLE 3-4 tone gradients. Lighting is SOFT, LOW-CONTRAST, even. CLEAN DIGITAL 3D GAME RENDERING. NOT illustration, NOT anime, NOT painting style.
 ```
 
-## 核心美术渲染 Prompt
+## 核心渲染控制
 
-这条是当前版本最重要的画风控制句，适合每次转绘都放在 `画风` 后面：
+当前版本最重要的是这组开场声明，适合每次转绘都放在提示词最前面：
 
 ```text
-核心美术渲染：清爽明亮的 Switch 实机 cel-shaded 渲染，低频手绘贴图，大色块材质，柔和色阶阴影，暖色边缘光和薄雾高光，蓝绿色空气透视，远景发白降对比，角色与可交互物体轮廓清晰，草地/树叶/山石/屋顶/水面减少真实纹理和细碎笔触
+Nintendo Switch Tears of the Kingdom gameplay screenshot - MAXIMUM TOTK IN-GAME RENDERING FIDELITY.
+This must look EXACTLY like actual TOTK Switch gameplay footage, NOT illustration, NOT anime art, NOT painting.
 ```
 
-如果生成结果还是太写实，可以追加这句作为二次迭代方向：
+如果生成结果还是太像插画或写实，可以用下面方向二次迭代：
 
 ```text
-减少真实纹理、降低 HDR 对比、弱化硬黑阴影、增加低频大色块、强化 Switch 实机截图感
+NO fine brush strokes, NO painting texture, NO illustration style.
+CLEAN DIGITAL 3D GAME RENDERING.
+Every surface is LARGE FLAT COLOR BLOCK.
+Shadows are SIMPLE 3-4 tone gradients.
+NO texture complexity, NO fine surface detail.
 ```
 
 ## 工作流说明

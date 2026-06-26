@@ -1,7 +1,7 @@
 interface:
   display_name: "塞尔达实况转绘"
-  short_description: "照片转塞尔达实况截图并生成提示词"
-  default_prompt: "使用 $zelda-screenshot-transfer 将这张参考照片转成 BOTW/TOTK 原版游戏实况截图，并输出可复用提示词。"
+  short_description: "照片转 TOTK 实机截图质感提示词"
+  default_prompt: "使用 $zelda-screenshot-transfer 将这张参考照片转成 Nintendo Switch《王国之泪》实机截图质感，并输出可复用提示词。"
 
 policy:
   allow_implicit_invocation: true

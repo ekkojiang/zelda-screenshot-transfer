@@ -4,11 +4,18 @@
 
 当前重点是 **MAXIMUM TOTK IN-GAME RENDERING FIDELITY**：尽量贴近《王国之泪》Switch 实机 gameplay footage 的 clean digital cel-shading 游戏引擎渲染，而不是插画、绘画、电影 CG 或写实摄影。
 
+当前版本：`v0.2.1`
+
 ## 作者主页
 
 - 小红书主页：[https://www.xiaohongshu.com/user/profile/59a4ee346a6a6972f6a7aec4](https://www.xiaohongshu.com/user/profile/59a4ee346a6a6972f6a7aec4)
 
 ## 版本迭代
+
+### v0.2.1 - 安装说明补充
+
+- 在 README 顶部补充当前版本号
+- 在安装方法中新增一句话 Codex 安装命令，方便直接复制到 Codex 对话中使用
 
 ### v0.2.0 - TOTK 实机渲染保真强化
 
@@ -49,6 +56,12 @@
 - 在生成图片时，同时输出可复用的生图提示词
 
 ## 安装方法
+
+一句话让 Codex 安装：
+
+```text
+请安装这个 Codex Skill：https://github.com/ekkojiang/zelda-screenshot-transfer
+```
 
 把整个 skill 文件夹放到 Codex 的 skills 目录下：
 

@@ -1,2 +1,4 @@
 .DS_Store
 feishu-generated-images/
+.env
+data/

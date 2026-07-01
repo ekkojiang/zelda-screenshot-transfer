@@ -1,16 +1,109 @@
+# GPT-image2
+
+一个本地独立网页应用，用来把现实照片转成开放世界冒险游戏 / TOTK 实况截图风格的图片生成工作流。
+
+当前应用支持：
+
+- 上传单张或多张参考照片
+- 对话式选择是否加入林克、是否保留 UI、竖版比例、是否只出提示词
+- 后端调用 OpenAI 视觉模型分析参考图
+- 后端调用 OpenAI 图片生成模型生成结果
+- 无 API Key 时自动退回提示词模式
+- 本地保存历史记录
+- 复制和复用提示词
+- 导出 1080x1440 小红书封面
+
+## 启动应用
+
+```bash
+npm run dev
+```
+
+打开：
+
+```text
+http://localhost:5177
+```
+
+## 真实调用 OpenAI
+
+复制环境变量示例：
+
+```bash
+cp .env.example .env
+```
+
+然后在 `.env` 里填入你的真实 Key：
+
+```bash
+OPENAI_API_KEY=your_api_key_here
+OPENAI_ANALYSIS_MODEL=gpt-5.5
+OPENAI_RESPONSE_MODEL=gpt-5.5
+OPENAI_IMAGE_MODEL=gpt-image-2
+OPENAI_IMAGE_QUALITY=high
+```
+
+注意：
+
+- 真实密钥只放在 `.env`。
+- 不要把 `.env` 提交到 Git。
+- 改完 `.env` 后需要重启 `npm run dev`。
+- 如果页面右上角显示“API 已连接”，就会走真实 OpenAI 调用。
+- 如果显示“提示词模式”，说明后端没有读到 `OPENAI_API_KEY`。
+
+真实生成链路：
+
+1. 上传参考照片。
+2. 后端用 `OPENAI_ANALYSIS_MODEL` 分析照片结构。
+3. 后端根据分析结果生成完整转绘提示词。
+4. 如果选择“提示词 + 生成图”，后端用 `OPENAI_RESPONSE_MODEL` 调用 `image_generation` 工具，并使用 `OPENAI_IMAGE_MODEL` 生成图片。
+5. 生成图和提示词保存到本地历史记录。
+
+生成数据会保存在本机：
+
+```text
+data/uploads/
+data/generated/
+data/history.json
+```
+
+这些路径已加入 `.gitignore`，避免误提交用户照片、生成图和历史数据。
+
+---
+
 # zelda-screenshot-transfer
 
 一个用于 Codex 的图片转绘 Skill：根据现实参考照片，生成 Nintendo Switch《塞尔达传说：王国之泪》实机截图质感的转绘提示词，也可以配合图片生成工具进行转绘测试。
 
 当前重点是 **MAXIMUM TOTK IN-GAME RENDERING FIDELITY**：尽量贴近《王国之泪》Switch 实机 gameplay footage 的 clean digital cel-shading 游戏引擎渲染，而不是插画、绘画、电影 CG 或写实摄影。
 
-当前版本：`v0.2.1`
+当前版本：`v0.3.1`
 
 ## 作者主页
 
 - 小红书主页：[https://www.xiaohongshu.com/user/profile/59a4ee346a6a6972f6a7aec4](https://www.xiaohongshu.com/user/profile/59a4ee346a6a6972f6a7aec4)
 
 ## 版本迭代
+
+### v0.3.1 - 自检与窄修复优化
+
+- 强化 UI 自检：发现标题默认更小，不能像封面标题或海报主视觉；近景、露台、室内、休憩类场景优先使用小型交互提示
+- 新增 `Scene-Specific Detail Suppression`：按场景压制树叶、石墙、窗格、反射、水纹、布纹、车流、道路标线等高频细节
+- 自检清单新增“场景微细节”和“概念图风险”检查，防止画面跑向写实照片、电影概念图或宣传海报
+- 强化城市/地标场景规则：保留地标轮廓和城市/海湾/公园关系，避免过度金色装饰、密集窗格、真实玻璃反射和泛幻想城市化
+- `STRICT SELF-CHECK TARGET` 新增场景微细节压制和 UI 不可海报化要求
+- `Common Fixes` 新增三类修复策略：大 UI 修复、材质微细节过密、城市或地标概念图化
+- 进一步明确窄修复原则：优先保留构图、角色尺度、天气、路线、场景密度，只修失败模块
+
+### v0.3.0 - 原创角色转译与自检强化
+
+- 新增“用户参考原创角色”模式：当用户提供人物参考或要求替换林克时，可提示是否使用原创海拉鲁冒险者
+- 原创角色必须转译成《王国之泪》实机可玩角色效果，对标林克的比例、材质、装备复杂度和动作可信度
+- 人物参考只保留发型轮廓、服装色系、衣物流动、姿态气质等高层设计线索，不复制现代街景、Logo、电线、真实写真或时装照质感
+- Prompt 模板新增 `CHARACTER AND GAMEPLAY` 原创角色分支，避免默认逻辑只能生成林克
+- 自检清单新增“原创角色”检查项，防止角色偏向现代人物、cosplay、时装插画或照片级真人
+- 自检修复流程改为保护 `player-character scale`，同时适配林克和原创可玩角色
+- `STRICT SELF-CHECK TARGET` 现在会检查原创角色是否真正像 TOTK 实机角色，而不是现代人物或插画角色
 
 ### v0.2.1 - 安装说明补充
 
@@ -49,6 +142,7 @@
 - 把城堡、山谷、村庄、森林、湖泊、沙漠、营地等照片转成开放世界游戏截图感
 - 根据参考图内容自动设计玩法时刻，例如奔跑、攀爬、滑翔、烹饪、休憩、睡觉、潜行
 - 默认使用 `TOTK 王国之泪默认造型，林克单人`
+- 支持把用户提供的人物参考转译成原创海拉鲁冒险者，并保持对标林克的王国之泪实机可玩角色效果
 - 默认输出 `9:16` 手机竖屏构图
 - 自动加入轻量 HUD、区域发现 UI、中文按键动词
 - 使用元素级色阶公式控制 TOTK 实机 cel-shaded 渲染
@@ -116,7 +210,7 @@ RENDERING STYLE - TOTK SWITCH IN-GAME (CRITICAL):
 LARGE FLAT UNIFIED COLOR BLOCKS dominate every surface; CLEAN DIGITAL CEL-SHADING like 3D game engine rendering; 3-4 level soft gradient shadows ONLY; LOW-FREQUENCY hand-painted game textures; NO fine brush strokes, NO painting texture, NO illustration style.
 
 SCENE：保留参考图核心构图、主体、地形、道路/水面/建筑/天空等识别特征；现代设施和游客做海拉鲁化转译或移除；画面尺寸比例：9:16，1440x2560
-CHARACTER AND GAMEPLAY：TOTK 王国之泪默认造型，林克单人；根据参考图选择一个明确游戏动作，并说明是否显示耐力轮
+CHARACTER AND GAMEPLAY：默认使用 TOTK 王国之泪默认造型，林克单人；如果用户提供人物参考或要求替换林克，则转译为原创海拉鲁冒险者，王国之泪实机角色效果，对标林克的比例、材质、装备复杂度和动作可信度；根据参考图选择一个明确游戏动作，并说明是否显示耐力轮
 ZELDA ELEMENTS：3-7 个场景适配元素，只列名称
 UI：按需加入区域发现/相机/轻量 HUD；所有可读 UI 使用中文；真实招牌和广告转为不可读海拉鲁纹样
 
